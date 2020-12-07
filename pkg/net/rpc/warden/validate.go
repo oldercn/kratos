@@ -2,8 +2,8 @@ package warden
 
 import (
 	"context"
-
-	"github.com/go-kratos/kratos/pkg/ecode"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"github.com/go-playground/validator/v10"
 	"google.golang.org/grpc"
@@ -15,7 +15,7 @@ var validate = validator.New()
 func (s *Server) validate() grpc.UnaryServerInterceptor {
 	return func(ctx context.Context, req interface{}, args *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
 		if err = validate.Struct(req); err != nil {
-			err = ecode.Error(ecode.RequestErr, err.Error())
+			err = status.Error(codes.InvalidArgument, err.Error())
 			return
 		}
 		resp, err = handler(ctx, req)
@@ -30,7 +30,7 @@ func (s *Server) RegisterValidation(key string, fn validator.Func) error {
 	return validate.RegisterValidation(key, fn)
 }
 
-//GetValidate return the default validate
+// GetValidate return the default validate
 func (s *Server) GetValidate() *validator.Validate {
 	return validate
 }
