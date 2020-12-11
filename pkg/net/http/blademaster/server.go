@@ -188,9 +188,6 @@ func NewServer(conf *ServerConfig) *Engine {
 		return engine.newContext()
 	}
 	engine.RouterGroup.engine = engine
-	// NOTE add prometheus monitor location
-	// engine.addRoute("GET", "/metrics", monitor())
-	// engine.addRoute("GET", "/metadata", engine.metadata())
 	engine.NoRoute(func(c *Context) {
 		c.Bytes(404, "text/plain", default404Body)
 		c.Abort()

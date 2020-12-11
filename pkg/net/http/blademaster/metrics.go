@@ -3,8 +3,8 @@ package blademaster
 import "github.com/go-kratos/kratos/pkg/stat/metric"
 
 const (
-	clientNamespace = "http_client"
-	serverNamespace = "http_server"
+	clientNamespace = "kratoshttp_client"
+	serverNamespace = "kratoshttp_server"
 )
 
 var (
